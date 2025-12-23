@@ -21,7 +21,7 @@ jobs:
       VERSION_TYPE: ${{ github.event.inputs.version_type }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@main
 
       - name: Build Image
         run: ./build.sh
