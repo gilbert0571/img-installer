@@ -21,7 +21,10 @@ REPO="wukongdaily/img-installer"
 TAG="2025-03-12"
 OUTPUT_PATH="armbian/armbian.img.xz"
 
-DOWNLOAD_URL=$(curl -s https://api.github.com/repos/$REPO/releases/tags/$TAG | jq -r '.assets[] | select(.name == "'"$FILE_NAME"'") | .browser_download_url')
+#DOWNLOAD_URL=$(curl -s https://api.github.com/repos/$REPO/releases/tags/$TAG | jq -r '.assets[] | select(.name == "'"$FILE_NAME"'") | .browser_download_url')
+INDEX_URL='https://dl.armbian.com/uefi-x86/Trixie_current_minimal'
+# 发起请求并打印最终实际请求的 URL（跟随重定向）
+DOWNLOAD_URL=$(curl -s -L -o /dev/null -w '%{url_effective}' "$INDEX_URL")
 
 if [[ -z "$DOWNLOAD_URL" ]]; then
   echo "错误：未找到文件 $FILE_NAME"
