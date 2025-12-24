@@ -1,20 +1,22 @@
 #!/bin/bash
 mkdir -p armbian
-
+INDEX_URL='https://dl.armbian.com/uefi-x86/Trixie_current_minimal'
 # 读取环境变量 (带默认值)
 VERSION_TYPE="${VERSION_TYPE:-standard}"
 if [ "$VERSION_TYPE" = "debian12_minimal" ]; then
   echo "构建debian12_minimal-armbian..."
   FILE_NAME="Armbian_25.2.1_Uefi-x86_bookworm_current_6.12.13_minimal.img.xz"
+  
 elif [ "$VERSION_TYPE" = "ubuntu24_minimal" ]; then
   echo "构建ubuntu24_minimal-armbian..." 
   FILE_NAME="Armbian_25.2.1_Uefi-x86_noble_current_6.12.13_minimal.img.xz"
 elif [ "$VERSION_TYPE" = "homeassistant_debian12_minimal" ]; then
   echo "构建homeassistant全家桶版armbian..." 
   FILE_NAME="Armbian_25.2.3_Uefi-x86_bookworm_current_6.12.17-homeassistant_minimal.img.xz"
+  INDEX_URL='https://dl.armbian.com/uefi-x86/Bookworm_current_server-homeassistantfinal'
 else 
   echo "构建standard-armbian..."
-  FILE_NAME="Armbian_25.2.1_Uefi-x86_noble_current_6.12.13.img.xz"
+  FILE_NAME="Armbian_25.2.1_Uefi-x86_noble_current_6.12.13.img.xz"  
 fi
 
 REPO="wukongdaily/img-installer"
@@ -22,7 +24,7 @@ TAG="2025-03-12"
 OUTPUT_PATH="armbian/armbian.img.xz"
 
 #DOWNLOAD_URL=$(curl -s https://api.github.com/repos/$REPO/releases/tags/$TAG | jq -r '.assets[] | select(.name == "'"$FILE_NAME"'") | .browser_download_url')
-INDEX_URL='https://dl.armbian.com/uefi-x86/Trixie_current_minimal'
+
 # 发起请求并打印最终实际请求的 URL（跟随重定向）
 DOWNLOAD_URL=$(curl -s -L -o /dev/null -w '%{url_effective}' "$INDEX_URL")
 
